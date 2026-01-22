@@ -187,7 +187,6 @@ Implementăm: **Entry upgrade (swing, nu scalp)** — Pullback entry + 15m confi
 - Vizualizare SL/TP via API: Binance UI folosește Conditional Orders; CCXT endpoints pentru acestea cer permisiuni PAPI (posibil neactivate/whitelist IP).
 
 ### ✅ AUTO CAP (balanța disponibilă)
-- `LIVE_MAX_USDT=0` => cap automat = `remaining_cycle = availableBalance - reserved_open_usdt(state)`
 - Practic: MAX USDT = balanța disponibilă; se aplică doar cascading 10%.
 
 ---
