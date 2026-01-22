@@ -5,3 +5,13 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+    volumes:
+      - ./.env:/app/.env
+      - ./app:/app/app
+      - ./config:/app/config
+      - ./state.json:/app/state.json

@@ -1,10 +1,10 @@
-mode: "SAFE"          # SAFE = doar alerte, fara trade | LIVE = executa trade
+mode: "LIVE"          # SAFE = doar alerte, fara trade | LIVE = executa trade
 timeframe: "1m"
 
 risk:
   max_positions: 1
-  sl_pct: 0.30        # 0.30% SL
-  tp_pct: 0.10        # 0.10% TP
+  sl_pct: 1.0        # 0.30% SL
+  tp_pct: 1.5        # 0.10% TP
 
 logic:
   # Placeholder simplu momentan (doar test):

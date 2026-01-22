@@ -1,3 +1,14 @@
-.env
+# runtime
+state.json
+app/state.json
+*.log
+logs/
 __pycache__/
 *.pyc
+
+# backups
+*.bak_*
+*.bak
+
+# env / secrets
+.env
