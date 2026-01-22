@@ -450,9 +450,9 @@ def get_funding_rate(ex, symbol: str) -> float | None:
 
 
 def equity_preferred(ex) -> tuple[str, float]:
-    """Returneaza ("USD", availableBalance) din UM Futures account (v2)."""
+    """Returneaza ("USD", totalWalletBalance) din UM Futures account (v2)."""
     acc = ex.fapiPrivateV2GetAccount()
-    bal = float(acc.get("availableBalance", 0.0) or 0.0)
+    bal = float(acc.get("totalWalletBalance", 0.0) or 0.0)
     return "USD", bal
 
 def cascade_alloc_usdt(free_usdt: float, step: int, pct: float = 0.10) -> float:

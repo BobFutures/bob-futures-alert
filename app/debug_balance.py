@@ -46,7 +46,7 @@ def main():
 
     # TRUTH SOURCE: FAPI v2 account (Multi-Assets Margin safe)
     acc = ex.fapiPrivateV2GetAccount({})
-    free = float(acc.get('availableBalance') or 0.0)
+    free = float(acc.get('totalWalletBalance') or 0.0)
     total = float(acc.get('totalWalletBalance') or 0.0)
     mam = acc.get('multiAssetsMargin')
     print('multiAssetsMargin=', mam)
