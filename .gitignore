@@ -44,3 +44,8 @@ backup.sh
 restore.sh
 cooldown
 .env.example
+
+# local archives
+BACKUP_FINAL_*.tgz
+BACKUP_FINAL_*/
+
