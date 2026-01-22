@@ -189,3 +189,31 @@ Implementăm: **Entry upgrade (swing, nu scalp)** — Pullback entry + 15m confi
 ### ✅ AUTO CAP (balanța disponibilă)
 - `LIVE_MAX_USDT=0` => cap automat = `remaining_cycle = availableBalance - reserved_open_usdt(state)`
 - Practic: MAX USDT = balanța disponibilă; se aplică doar cascading 10%.
+
+---
+
+## ✅ CHECKPOINT FINAL — Balance + Cascade (Single Source of Truth)
+
+### Futures Balance (Multi-Assets Margin = True)
+**Problemă:** `ccxt.fetch_balance({'type':'future'})` poate raporta `USDT=0` în Multi-Assets Margin și NU e sursa adevărului.
+
+**Sursa adevăr (Binance Futures / FAPI v2):**
+- `acc = ex.fapiPrivateV2GetAccount({})`
+- `totalWalletBalance` = **balanța totală** (crește automat când adaugi bani)
+- `availableBalance` = **balanța disponibilă** (disponibil de folosit acum)
+
+### Cascading allocation 10% (global, strict)
+- `CASCADING_PCT=0.10`
+- `reserved_open_usdt(state)` = sum(open_alloc_usdt map)
+- `remaining_cycle = totalWalletBalance - reserved_open_usdt(state)`
+- `next_alloc = CASCADING_PCT * remaining_cycle`
+
+### Cap (MAX_USDT / LIVE_MAX_USDT) — AUTO
+- Setare: `LIVE_MAX_USDT=0` (AUTO cap)
+- În AUTO: `cap = remaining_cycle` (adică **balanța totală rămasă** după reserved)
+- Dacă `LIVE_MAX_USDT > 0`: cap fix pe per-trade allocation.
+
+### Verificare rapidă
+```bash
+docker exec -it futures-bot sh -lc "python app/debug_balance.py"
+
