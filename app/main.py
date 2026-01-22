@@ -1228,7 +1228,7 @@ def main():
 
     server_name = env("SERVER_NAME", env("HOSTNAME", os.uname().nodename))
     live_enabled = env("LIVE_ENABLED", "NO").upper() == "YES"
-    live_max_usdt = float(env("LIVE_MAX_USDT", "20"))
+    live_max_usdt = float(env("LIVE_MAX_USDT", "0"))  # 0 => AUTO (cap = available/remaining)
     state = load_state()
     intel_ensure_symbols(state, symbols)
     # init state file if missing/empty, using env defaults
@@ -1686,7 +1686,7 @@ def main():
 
                     # CASCADE allocation (global, strict): 10% of remaining free after each opened position
                     alloc_pct = float(env("CASCADE_PCT", env("CASCADING_PCT", "0.10")))
-                    live_max_usdt = float(env("LIVE_MAX_USDT", env("MAX_USDT", "20")))
+                    cap_env = float(env("LIVE_MAX_USDT", "0"))  # 0 => AUTO cap (use remaining_cycle)
                     # derive cascade inputs from reserved open allocations
                     # free = equity_preferred() free balance
                     cascade_free0_local = float(cascade_free0 or 0.0)
@@ -1694,12 +1694,13 @@ def main():
                     cascade_open_idx = len(open_alloc_map(state))
 
                     remaining_cycle = max(0.0, float(cascade_free0_local) - float(cascade_used))
+                    live_max_usdt = (cap_env if cap_env > 0 else remaining_cycle)
                     step = int(cascade_open_idx)
 
                     alloc_usd_raw = float(cascade_alloc_usdt(float(cascade_free0_local), step, float(alloc_pct))) * float(risk_mult)
                     alloc_usd = float(alloc_usd_raw)
 
-                    # cap by LIVE_MAX_USDT (if >0)
+                    # cap by LIVE_MAX_USDT (if >0); if <=0 => AUTO cap=remaining_cycle
                     if live_max_usdt > 0:
                         alloc_usd = min(float(live_max_usdt), float(alloc_usd))
 
