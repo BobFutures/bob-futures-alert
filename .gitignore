@@ -1,14 +1,46 @@
-# runtime
+# secrets
+.env
+.env.*
+*.env
+*.env.*
+
+# runtime/state/logs
 state.json
 app/state.json
+state.json.*
+*_status.log
 *.log
 logs/
+cooldown/
+
+# python
 __pycache__/
 *.pyc
 
-# backups
-*.bak_*
+# backups / snapshots
+BACKUP_*/
+BACKUP_FINAL/
+*_snapshot*
 *.bak
+*.bak_*
+*.bak.*
+*.save
+*.save.*
+*.BROKEN*
+*.BEFORE_*
+*.FINAL_*
+*.BACKUP_*
+*.broken_*
+*.pre_*
+*.current.txt
 
-# env / secrets
-.env
+# compose backups
+docker-compose.yml.*
+
+# local ops helpers (keep local)
+app/utils/
+backups/
+backup.sh
+restore.sh
+cooldown
+.env.example
